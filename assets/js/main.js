@@ -1,239 +1,162 @@
-(function ($)
-  { "use strict"
-  
-/* 1. Proloder */
-    $(window).on('load', function () {
-      $('#preloader-active').delay(450).fadeOut('slow');
-      $('body').delay(450).css({
-        'overflow': 'visible'
-      });
-    });
+/*
+ * Evento -  Event html  Template
+ * Build Date: jan 2018
+ * Author: colorlib
+ * Copyright (C) 2018 colorlib
+ */
+ /* ------------------------------------- */
+/*  TABLE OF CONTENTS
+ /* ------------------------------------- */
+/*   PRE LOADING                          */
+/*   WOW                                 */
+/*   sliders                      */
+/*    MAPS                               */
+/*   COUNTER JS              */
 
-/* 2. sticky And Scroll UP */
+
+
+    /* ==============================================
+/*  PRE LOADING
+  =============================================== */
+'use strict';
+$(window).load(function() {
+    $('.loader').delay(500).fadeOut('slow');
+});
+
+
+$(document).ready(function() {
+
+    'use strict';
+    /* ==============================================
+     /*   wow
+      =============================================== */
+    var wow = new WOW(
+        {
+            animateClass: 'animated',
+            offset: 10,
+            mobile: true
+        }
+    );
+    wow.init();
+    /* ==============================================
+        STICKY HEADER
+        =============================================== */
+
     $(window).on('scroll', function () {
-      var scroll = $(window).scrollTop();
-      if (scroll < 400) {
-        $(".header-sticky").removeClass("sticky-bar");
-        $('#back-top').fadeOut(500);
-      } else {
-        $(".header-sticky").addClass("sticky-bar");
-        $('#back-top').fadeIn(500);
-      }
+        if ($(window).scrollTop() < 100) {
+            $('.header').removeClass('sticky_header');
+        } else {
+            $('.header').addClass('sticky_header');
+        }
     });
+    /* --------------------------------------------------------
+     COUNTER JS
+     ----------------------------------------------------------- */
 
-  // Scroll Up
-    $('#back-top a').on("click", function () {
-      $('body,html').animate({
-        scrollTop: 0
-      }, 800);
-      return false;
-    });
-  
-
-/* 3. slick Nav */
-// mobile_menu
-    var menu = $('ul#navigation');
-    if(menu.length){
-      menu.slicknav({
-        prependTo: ".mobile_menu",
-        closedSymbol: '+',
-        openedSymbol:'-'
-      });
-    };
-
-/* 4. MainSlider-1 */
-    // h1-hero-active
-    function mainSlider() {
-      var BasicSlider = $('.slider-active');
-      BasicSlider.on('init', function (e, slick) {
-        var $firstAnimatingElements = $('.single-slider:first-child').find('[data-animation]');
-        doAnimations($firstAnimatingElements);
-      });
-      BasicSlider.on('beforeChange', function (e, slick, currentSlide, nextSlide) {
-        var $animatingElements = $('.single-slider[data-slick-index="' + nextSlide + '"]').find('[data-animation]');
-        doAnimations($animatingElements);
-      });
-      BasicSlider.slick({
-        autoplay: false,
-        autoplaySpeed: 5000,
-        dots: false,
-        fade: true,
-        arrows: false, 
-        prevArrow: '<button type="button" class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="ti-angle-right"></i></button>',
-        responsive: [{
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              infinite: true,
-            }
-          },
-          {
-            breakpoint: 991,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              arrows: false
-            }
-          },
-          {
-            breakpoint: 767,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              arrows: false
-            }
-          }
-        ]
-      });
-
-      function doAnimations(elements) {
-        var animationEndEvents = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
-        elements.each(function () {
-          var $this = $(this);
-          var $animationDelay = $this.data('delay');
-          var $animationType = 'animated ' + $this.data('animation');
-          $this.css({
-            'animation-delay': $animationDelay,
-            '-webkit-animation-delay': $animationDelay
-          });
-          $this.addClass($animationType).one(animationEndEvents, function () {
-            $this.removeClass($animationType);
-          });
-        });
-      }
-    }
-    mainSlider();
-
-/* 5. Testimonial Active*/
-
-/* 4. Testimonial Active*/
-    var testimonial = $('.h1-testimonial-active');
-    if(testimonial.length){
-    testimonial.slick({
-        dots: false,
-        infinite: true,
-        speed: 1000,
-        autoplay:false,
-        loop:true,
-        arrows: true,
-        prevArrow: '<button type="button" class="slick-prev"><i class="ti-angle-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="ti-angle-right"></i></button>',
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        responsive: [
-          {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              infinite: true,
-              dots: false,
-              arrow:false
-            }
-          },
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              arrows:false
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              arrows:false,
-            }
-          }
-        ]
-      });
-    }
-
-
-
-/* 6. Nice Selectorp  */
-  var nice_Select = $('select');
-    if(nice_Select.length){
-      nice_Select.niceSelect();
-    }
-
-/* 7. data-background */
-    $("[data-background]").each(function () {
-      $(this).css("background-image", "url(" + $(this).attr("data-background") + ")")
-      });
-
-
-/* 10. WOW active */
-    new WOW().init();
-
-// 11. ---- Mailchimp js --------//  
-    function mailChimp() {
-      $('#mc_embed_signup').find('form').ajaxChimp();
-    }
-    mailChimp();
-
-
-// 12 Pop Up Img
-    var popUp = $('.single_gallery_part, .img-pop-up');
-      if(popUp.length){
-        popUp.magnificPopup({
-          type: 'image',
-          gallery:{
-            enabled:true
-          }
-        });
-      }
-// 12 Pop Up Video
-    var popUp = $('.popup-video');
-    if(popUp.length){
-      popUp.magnificPopup({
-        type: 'iframe'
-      });
-    }
-
-/* 13. counterUp*/
     $('.counter').counterUp({
-      delay: 10,
-      time: 3000
+        delay: 5,
+        time: 3000
     });
-    /*------------------
-        CountDown
-    --------------------*/
-    // For demo preview
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-    if(mm == 12) {
-        mm = '01';
-        yyyy = yyyy + 1;
-    } else {
-        mm = parseInt(mm) + 1;
-        mm = String(mm).padStart(2, '0');
+
+    $(".countdown")
+        .countdown("2018/03/01", function(event) {
+            $(this).html(
+                event.strftime('<div>%w <span>Weeks</span></div>  <div>%D <span>Days</span></div>  <div>%H<span>Hours</span></div> <div>%M<span>Minutes</span></div> <div>%S<span>Seconds</span></div>')
+            );
+        });
+
+    /* ==============================================
+     SLIDER
+     =============================================== */
+    $(".cover_slider").owlCarousel({
+        loop:true,
+        autoplay:true,
+        smartSpeed:1000,
+        autoplayHoverPause:false,
+        dots:true,
+        nav:false,
+        items:1,
+        animateOut: 'fadeOut',
+        animateIn: 'fadeIn',
+        dotsContainer: '.cover_dots'
+    });
+
+    $(".brand_carousel").owlCarousel({
+        loop:true,
+        autoplay:true,
+        smartSpeed:450,
+        autoplayHoverPause:false,
+        dots:false,
+        nav:false,
+        responsiveClass:true,
+        responsive:{
+            0:{
+                items:2
+            },
+            600:{
+                items:3
+
+            },
+            1000:{
+                items:5
+
+            }
+        },
+        items:5
+    });
+    /* ------------------------------------- */
+    /* Animated progress bars
+     /* ------------------------------------- */
+
+    var waypoints = $('.progress_container').waypoint(function() {
+        $('.progress .progress-bar').progressbar({
+            transition_delay: 1000
+        });
+    },{
+        offset: '50%'
+    });
+
+
+        /* --------------------------------------------------------
+    MAPS
+    ----------------------------------------------------------- */
+    var map = $('#map');
+    if(map.length > 0) {
+        google.maps.event.addDomListener(window, 'load', init);
+        var lattuide = map.attr('data-lat');
+        var longtuided = map.attr('data-lon');
     }
-    var timerdate = mm + '/' + dd + '/' + yyyy;
-    // For demo preview end
-    
+    function init() {
+        // Basic options for a simple Google Map
+        // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+        var mapOptions = {
+            // How zoomed in you want the map to start at (always required)
+            zoom: 16,
+            scrollwheel: false,
+            navigationControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            // The latitude and longitude to center the map (always required)
+            center: new google.maps.LatLng(lattuide, longtuided), // New York
 
-    // Use this for real timer date
-    /*  var timerdate = "2020/01/01"; */
+            // How you would like to style the map.
+            // This is where you would paste any style found on Snazzy Maps.
+            styles: [{"featureType":"water","stylers":[{"saturation":43},{"lightness":-11},{"hue":"#0088ff"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"hue":"#ff0000"},{"saturation":-100},{"lightness":99}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#808080"},{"lightness":54}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"color":"#ece2d9"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#ccdca1"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#767676"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#ffffff"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#b8cb93"}]},{"featureType":"poi.park","stylers":[{"visibility":"on"}]},{"featureType":"poi.sports_complex","stylers":[{"visibility":"on"}]},{"featureType":"poi.medical","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","stylers":[{"visibility":"simplified"}]}]
+        };
 
-	$("#countdown").countdown(timerdate, function(event) {
-        $(this).html(event.strftime("<div class='cd-item'><span>%D</span><p>Days</p> </div>" + "<div class='cd-item'><span>%H</span><p>Hrs</p> </div>" + "<div class='cd-item'><span>%M</span><p>Min</p> </div>" + "<div class='cd-item'><span>%S</span><p>Sec</p> </div>"));
-    });
+        // Get the HTML DOM element that will contain your map
+        // We are using a div with id="map" seen below in the <body>
+        var mapElement = document.getElementById('map');
 
+        // Create the Google Map using our element and options defined above
+        var map = new google.maps.Map(mapElement, mapOptions);
 
+        // Let's also add a marker while we're at it
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lattuide, longtuided),
+            map: map,
+            title: 'evento!'
+        });
+    }
 
-    
-/* 14. Datepicker */
-  $('#datepicker1').datepicker();
-
-// 15. Time Picker
-  $('#timepicker').timepicker();
-
-
-})(jQuery);
+});
