@@ -160,3 +160,18 @@ $(document).ready(function() {
     }
 
 });
+
+var $form = $('form#test-form'),
+    url = 'https://script.google.com/macros/s/AKfycbyOcmdQyyMf4k70G-0itbRBSb1X6y8fmL5y--ZjcxMjMRq61JQ/exec'
+
+$('#submit-form').on('click', function(e) {
+  e.preventDefault();
+  var jqxhr = $.ajax({
+    url: url,
+    method: "GET",
+    dataType: "json",
+    data: $form.serializeObject()
+  }).success(
+    // do something
+  );
+})
