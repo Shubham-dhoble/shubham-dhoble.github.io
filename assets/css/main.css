@@ -2304,6 +2304,7 @@ Cover
 .icon_box_one {
   background-color: #f0f2f6;
   padding: 0;
+  height: 400px;
   margin: 25px 0;
   position: relative;
   overflow: hidden;
